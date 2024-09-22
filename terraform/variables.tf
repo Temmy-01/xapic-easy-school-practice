@@ -22,7 +22,6 @@ variable "subnet_cidr" {
   default     = "10.0.1.0/24"
 }
 
-
 # Instance type
 variable "instance_type" {
   description = "The type of instance to launch"
