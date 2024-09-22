@@ -9,6 +9,6 @@ variable "public_key_path" {
   description = "Path to the public key for SSH access"
   type        = string
   # default     = "/Users/mac/.ssh/temmy-01.pub"
-  default     = "${path.module}/.ssh/temmy-01.pub"
+  # default     = "${path.module}/.ssh/temmy-01.pub"
 }
 
