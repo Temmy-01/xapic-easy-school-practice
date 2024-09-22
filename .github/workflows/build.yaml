@@ -144,7 +144,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-2
+        aws-region: eu-west-1
 
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
@@ -164,6 +164,10 @@ jobs:
       #   TF_VAR_public_key_path: "$HOME/.ssh/temmy-01.pub"  # Pass the public key path as an environment variable 
       run: terraform apply -auto-approve
       working-directory: terraform/
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
 
     - name: Build Docker Image
       run: |
