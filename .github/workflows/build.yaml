@@ -134,8 +134,8 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-2
-    - name: Check public key path
-      run: ls -l /Users/mac/.ssh/temmy-01.pub
+    - name: Create SSH Key
+      run: echo "${{ secrets.MY_PUBLIC_KEY }}" > $HOME/.ssh/temmy-01.pub
 
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
