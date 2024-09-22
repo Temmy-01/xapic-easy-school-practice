@@ -7,6 +7,7 @@ variable "region" {
   default     = "us-east-1"
 }
 
+
 # VPC CIDR Block
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
