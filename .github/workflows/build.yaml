@@ -128,16 +128,16 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v2
 
-    - name: Setup SSH Directory
-      run: mkdir -p $HOME/.ssh
+    # - name: Setup SSH Directory
+    #   run: mkdir -p $HOME/.ssh
 
-    - name: Create SSH Key
-      run: echo "${{ secrets.MY_PUBLIC_KEY }}" > $HOME/.ssh/temmy-01.pub
+    # - name: Create SSH Key
+    #   run: echo "${{ secrets.MY_PUBLIC_KEY }}" > $HOME/.ssh/temmy-01.pub
 
-    - name: Set SSH Key Permissions
-      run: |
-        chmod 700 $HOME/.ssh
-        chmod 600 $HOME/.ssh/temmy-01.pub
+    # - name: Set SSH Key Permissions
+    #   run: |
+    #     chmod 700 $HOME/.ssh
+    #     chmod 600 $HOME/.ssh/temmy-01.pub
 
     - name: Setup AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -160,8 +160,8 @@ jobs:
       working-directory: terraform/
 
     - name: Terraform Apply
-      env:
-        TF_VAR_public_key_path: "$HOME/.ssh/temmy-01.pub"  # Pass the public key path as an environment variable 
+      # env:
+      #   TF_VAR_public_key_path: "$HOME/.ssh/temmy-01.pub"  # Pass the public key path as an environment variable 
       run: terraform apply -auto-approve
       working-directory: terraform/
 
