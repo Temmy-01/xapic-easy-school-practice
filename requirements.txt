@@ -9,3 +9,5 @@ django
 pillow
 pytz
 sqlparse
+Django>=3.2,<4.0
+

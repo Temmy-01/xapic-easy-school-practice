@@ -1,1 +1,177 @@
 
+# name: CI/CD for Django App
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout Code
+#       uses: actions/checkout@v2
+
+#     - name: Setup AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: eu-west-2
+
+#     - name: Install Terraform
+#       uses: hashicorp/setup-terraform@v1
+#       with:
+#         terraform_version: 1.8.5
+
+#     - name: Terraform Init
+#       run: terraform init
+#       working-directory: infra/
+
+#     - name: Terraform Plan
+#       run: terraform plan -var-file="prod.tfvars"
+#       working-directory: infra/
+
+#     - name: Terraform Apply
+#       run: terraform apply -var-file="prod.tfvars" -auto-approve
+#       working-directory: infra/
+
+#     - name: Build Docker Image
+#       run: |
+#         docker build -t ${{ secrets.AWS_ECR_REGISTRY }}/belovedtemmy/workwave:latest .
+#         docker push ${{ secrets.AWS_ECR_REGISTRY }}/belovedtemmy/workwave:latest
+
+#     - name: Deploy to ECS
+#       run: terraform apply -var-file="prod.tfvars" -auto-approve
+
+
+
+
+
+
+
+
+
+# name: CI/CD for Django App
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout Code
+#       uses: actions/checkout@v2
+
+#     - name: Setup AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: eu-west-2
+
+#     - name: Install Terraform
+#       uses: hashicorp/setup-terraform@v1
+#       with:
+#         terraform_version: 1.8.5
+
+#     - name: Terraform Init
+#       run: terraform init
+#       working-directory: terraform/
+
+#     - name: Terraform Plan
+#       run: terraform plan
+#       working-directory: terraform/
+
+#     - name: Terraform Apply
+#       run: terraform apply -auto-approve
+#       working-directory: terraform/
+
+#     - name: Build Docker Image
+#       run: |
+#         docker build -t ${{ secrets.AWS_ECR_REGISTRY }}/easy-school:latest .
+#         docker push ${{ secrets.AWS_ECR_REGISTRY }}/easy-school:latest
+
+#     - name: Deploy to ECS
+#       run: terraform apply -auto-approve
+#       working-directory: terraform/
+
+
+
+name: CI/CD for Easy School App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Setup AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2
+
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.8.5
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: terraform/
+
+    - name: Terraform Plan
+      run: terraform plan
+      working-directory: terraform/
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: terraform/
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ secrets.AWS_ECR_REGISTRY }}/easy-school:latest .
+        docker push ${{ secrets.AWS_ECR_REGISTRY }}/easy-school:latest
+
+    - name: Setup Kubernetes
+      run: |
+        # Install kubectl
+        curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+
+        # Install Helm
+        curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+
+    - name: Monitor Pods
+      run: |
+        kubectl rollout status deployment/easy-school-deployment

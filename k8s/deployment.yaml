@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: easy-school
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: easy-school
+  template:
+    metadata:
+      labels:
+        app: easy-school
+    spec:
+      containers:
+      - name: easy-school
+        image: ${{ secrets.DOCKER_USERNAME }}/easy-school:latest
+        ports:
+        - containerPort: 80
