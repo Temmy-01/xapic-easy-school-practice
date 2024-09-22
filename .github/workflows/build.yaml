@@ -180,7 +180,6 @@
 #       run: |
 #         kubectl rollout status deployment/easy-school-deployment
 
-
 name: CI/CD for Easy School App
 
 on:
