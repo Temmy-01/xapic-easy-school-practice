@@ -8,6 +8,6 @@ variable "key_name" {
 variable "public_key_path" {
   description = "Path to the public key for SSH access"
   type        = string
-  default     = "~/.ssh/temmy-01.pub"
+  default     = "/Users/mac/.ssh/temmy-01.pub"
 }
 
