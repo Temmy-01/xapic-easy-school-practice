@@ -17,3 +17,4 @@ spec:
         image: ${{ secrets.DOCKER_USERNAME }}/easy-school:latest
         ports:
         - containerPort: 80
+
