@@ -81,6 +81,23 @@ module "vpc" {
   vpc_name  = "easy-school-vpc"
 }
 
+
+# Call the EKS module# Call the EKS module# Call the EKS module
+module "eks" {
+  source            = "./modules/eks"
+  cluster_name      = "easy-school-cluster"  
+  cluster_role_arn  = var.cluster_role_arn  # Ensure you define this in your main variables.tf
+  subnet_ids        = module.subnet.subnet_ids  
+}
+
+
+# Output for the EKS cluster name
+output "eks_cluster_name" {
+  value       = module.eks.cluster_id
+  description = "The name of the EKS cluster"
+}
+
+
 # Call the Subnet module
 # Call the Subnet module
 module "subnet" {

@@ -41,3 +41,12 @@ variable "public_key_path" {
   type        = string
   default     = "~/.ssh/temmy-01.pub"
 }
+
+variable "cluster_role_arn" {
+  description = "The IAM role ARN for the EKS cluster"
+  type        = string
+}
+
+
+
+
