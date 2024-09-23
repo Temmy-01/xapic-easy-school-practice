@@ -183,6 +183,7 @@
 
 # 
 
+
 name: CI/CD for Easy School App
 
 on:
@@ -248,6 +249,10 @@ jobs:
 
         # Install Helm
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+    - name: Configure AWS EKS
+      run: |
+        aws eks update-kubeconfig --region us-east-2 --name YOUR-EKS-CLUSTER-NAME
 
     - name: Deploy to Kubernetes
       run: |
